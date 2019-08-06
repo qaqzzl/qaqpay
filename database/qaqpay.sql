@@ -1,39 +1,8 @@
 
 
 -- 以下字段含义
--- 平台 -> 码商
 -- 商户 -> 游戏平台
 
-
--- 用户平台表
-create table if not exists `platform`(
-    `platform_id` int unsigned auto_increment primary key,
-    `name` varchar(50) not null comment '平台名称',
-    `phone` varchar(20) not null comment '平台手机号 | 账号',
-    `password` varchar(64) not null default "" comment '密码',
-    `account_balance` decimal(10,2) not null default 0.00 comment '平台余额 , 不可提现',
-    `income_balance`  decimal(10,2) not null default 0.00 comment '收益余额, 可提现',
-    `income_percentage`  decimal(10,2) not null default 0.00 comment '收益余额, 提成百分比',
-    `wechat_appid` varchar(255) not null default "" comment '微信appid',
-    `wechatpay_secret` varchar(255) not null default "" comment '微信支付秘钥',
-    `alipay_appid` varchar(255) not null default "" comment '支付宝appid',
-    `alipay_secret` varchar(255) not null default "" comment '支付宝支付秘钥',
-    `use_time` int  not null  default 0 comment '上次使用此平台支付时间',
-    `created_at` int not null default 0 comment '创建时间',
-    `updated_at` int not null default 0 comment '更新时间',
-    UNIQUE KEY `phone` (`phone`)
-)engine=innodb default charset=utf8 comment '平台表';
-
--- 平台流水表
-create table if not exists `platform_trade_bills`(
-    `total_bill_id` int unsigned auto_increment primary key,
-    `platform_id` int not null comment '平台账号',
-    `bill_type` char(20) not null comment '账单类型, enter-充值, exit-提现, income-收益',
-    `status` tinyint(1) not null default 1 comment '状态 0-成功, 1-等待, 2-失败',
-    `amount` decimal(10,2) not null default 0.00 comment '金额',
-    `created_at` int not null default 0 comment '创建时间',
-    `updated_at` int not null default 0 comment '更新时间'
-)engine=innodb default charset=utf8 comment '平台(充值|提现)表';
 
 -- 商户表
 create table if not exists `merchant`(
@@ -44,7 +13,7 @@ create table if not exists `merchant`(
     `name` varchar(50) not null comment '商户名称',
     `phone` varchar(20) not null default '' comment '商户手机号',
     `email` varchar(50) not null default '' comment '邮箱',
-    `total_server_income` decimal(10,2) not null default 0.00 comment '系统获取总收益',
+    `total_server_income` decimal(10,2) not null default 0.00 comment '系统收益总收益',
     `total_trade_amount` decimal(10,2) not null default 0.00 comment '商户总交易金额',
     `charges_percentage` decimal(5,2) not null default 3.00 comment '商户交易手续费百分比',
     `created_at` int not null default 0 comment '创建时间',
@@ -55,10 +24,11 @@ create table if not exists `merchant`(
 create table if not exists `merchant_trade_bills`(
     `total_bill_id` int unsigned auto_increment primary key,
     `merchant_id` int not null comment '商户ID',
-    `bill_type` char(20) not null comment '账单类型, enter-支付, exit-提现',
-    `status` tinyint(1) not null default 1 comment '状态 0-成功, 2-失败',
+    `bill_type` char(20) not null comment '账单类型, openpay-开放支付, withdraw-提现',
+    `status` tinyint(1) not null default 1 comment '状态 0-成功, 1-等待中(提现中), 2-失败',
     `amount` decimal(10,2) not null default 0.00 comment '金额',
     `charges_amount` decimal(10,2) not null default 0.00 comment '商户交易手续费',
+    `out_trade_no` varchar(255) not null default '' comment '第三方系统(支付宝|微信)流水号',
     `created_at` int not null default 0 comment '创建时间',
     `updated_at` int not null default 0 comment '更新时间'
 )engine=innodb default charset=utf8 comment '商户流水账单表';
@@ -68,8 +38,10 @@ create table if not exists `merchant_trade_pay`(
     `pay_id` int unsigned auto_increment primary key,
     `merchant_id` int not null comment '商户ID',
     `trade_no` varchar(255) not null comment '系统流水号',
+    `status` char(20) not null default '' comment 'wait:等待结算, end:已经结算',
     `out_pay_status` tinyint(1) not null default 1 comment '第三方系统支付状态 0-成功, 1-等待, 2-失败',
     `out_trade_no` varchar(255) not null default '' comment '第三方系统(支付宝|微信)流水号',
+    `out_gmt_payment` int not null default 0 comment '第三方支付完成时间',
 
     -- 商户信息
     `merchant_trade_no` varchar(64) not null comment '商户订单号',
@@ -91,14 +63,26 @@ create table if not exists `merchant_trade_pay`(
 
 -- 商户提现表
 
--- 商户支付回调通知表
+-- 商户回调通知表
+create table if not exists `merchant_trade_notify`(
+    `notify_id` int unsigned auto_increment primary key,
+    `merchant_id` int not null comment '商户ID',
+    `status` char(50) not null default 'wait' comment '状态 success , error , wait',
+    `frequency` tinyint(5) not null default 1 comment '通知次数',
+    `last_notice_time` int not null comment '上次通知时间',
+    `out_trade_no` varchar(255) not null default '' comment '第三方系统(支付宝|微信)流水号',
+    `notify_url` varchar(255) not null default '' comment '商户通知回调地址',
+    `notice_body` text not null comment '通知原始数据',
+    `created_at` int not null default 0 comment '创建时间',
+    `updated_at` int not null default 0 comment '创建时间'
+)engine=innodb default charset=utf8 comment '商户回调通知表';
 
 -- 第三方支付平台支付回调通知表
-create table if not exists `out_trade_pay`(
-    `out_trade_pay_id` int unsigned auto_increment primary key,
-    `status` tinyint(1) not null default 1 comment '支付状态 0-成功, 1-失败',
-    `out_trade_no` varchar(255) not null '第三方系统(支付宝|微信)流水号',
-    `out_body` varchar(500) not null comment '回调通知原始数据',
+create table if not exists `out_trade_pay_log`(
+    `log_id` int unsigned auto_increment primary key,
+    `status` char(50) not null default '' comment '支付状态',
+    `out_trade_no` varchar(255) not null comment '第三方系统(支付宝|微信)流水号',
+    `out_body` text not null comment '回调通知原始数据',
     `created_at` int not null default 0 comment '创建时间'
 )engine=innodb default charset=utf8 comment '第三方支付平台支付回调通知表';
 

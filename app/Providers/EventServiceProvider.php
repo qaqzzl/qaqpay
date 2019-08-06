@@ -16,6 +16,10 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\Event' => [
             'App\Listeners\EventListener',
         ],
+        'App\Events\TradePaySuccess' => [       //商户(支付)交易成功
+            'App\Listeners\SettlementTrade',    //结算交易
+            'App\Listeners\SendCallBackNotification',    //发送回调通知
+        ],
     ];
 
     /**

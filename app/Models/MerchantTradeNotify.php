@@ -4,11 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class MerchantTradeBills extends Model
+class MerchantTradeNotify extends Model
 {
-    protected $table = 'merchant_trade_bills';
+    protected $table = 'merchant_trade_notify';
 
-    protected $primaryKey = 'total_bill_id';
+    protected $primaryKey = 'notify_id';
 
     protected $dateFormat = 'U';
 

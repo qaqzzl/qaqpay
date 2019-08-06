@@ -46,6 +46,7 @@ class PayController extends BaseController
     //支付宝支付回调
     public function notifyAlipay(ExtendPayService $extendPayService)
     {
+        testlog("notifyAlipay");
         return $extendPayService->NotifyAlipay();
     }
 
@@ -54,4 +55,14 @@ class PayController extends BaseController
     {
         $extendPayService->notifyWechat();
     }
+}
+
+function testlog($str)
+{
+    $logFile = fopen(
+        storage_path('logs' . DIRECTORY_SEPARATOR . date('Y-m-d') . '_app.log'),
+        'a+'
+    );
+    fwrite($logFile, date('Y-m-d H:i:s') . ': ' . $str . "\r\n");
+    fclose($logFile);
 }

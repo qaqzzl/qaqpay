@@ -12,7 +12,11 @@ Route::group([
 
     $router->get('/', 'HomeController@index')->name('admin.home');
 
+    $router->get('statistics', 'HomeController@statistics')->name('admin.home.statistics');
+
     $router->resource('merchants', MerchantController::class);
 
     $router->resource('merchant-trade-bills', MerchantTradeBillsController::class);
+
+    $router->resource('merchant-trade-pays', MerchantTradePayController::class);
 });

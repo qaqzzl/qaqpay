@@ -13,4 +13,10 @@ class MerchantTradePay extends Model
     protected $dateFormat = 'U';
 
     protected $guarded = [];
+
+
+    public function merchant()
+    {
+        return $this->hasOne(Merchant::class,'merchant_id','merchant_id');
+    }
 }
