@@ -6,6 +6,7 @@ namespace App\Services;
 use App\Events\TradePaySuccess;
 use App\Models\MerchantTradePay;
 use App\Models\OutTradePayLog;
+use Illuminate\Support\Facades\DB;
 use Yansongda\Pay\Pay;
 use Yansongda\Pay\Log;
 class ExtendPayService {
@@ -20,8 +21,6 @@ class ExtendPayService {
 
         try{
             $result = $alipay->verify();
-//            Log::debug(time().'Aliyun notify', $result->all());
-//            Log::debug(time().'Aliyun passback_params', $result->get('passback_params'));
             $res = $result->all();
 
             // 请自行对 trade_status 进行判断及其它逻辑进行判断，在支付宝的业务通知中，只有交易通知状态为 TRADE_SUCCESS 或 TRADE_FINISHED 时，支付宝才会认定为买家付款成功。
@@ -49,7 +48,6 @@ class ExtendPayService {
             }
             if ($payok == true) return $alipay->success();
         } catch (\Exception $e) {
-//            Log::debug('Aliyun ERROR', $e->getMessage());
             testlog($e->getMessage());
             //return Response::create('error');
         }
@@ -86,30 +84,27 @@ class ExtendPayService {
         if (!$TradePay = MerchantTradePay::where('trade_no',$trade_no)->first()) {
             return false;
         }
-        //更新商户支付表
-        $TradePay->out_trade_no = $out_trade_no;
-        $TradePay->out_pay_status = 0;
-        $TradePay->status = 'wait';     //等待结算
-        $TradePay->out_gmt_payment = $out_gmt_payment;     //第三方支付完成时间
-        $TradePay->save();
 
-        //结算订单
-        event(new TradePaySuccess($TradePay));
+        DB::beginTransaction();    //主事务
 
-        OpenPayService::NoticePay($TradePay->pay_id);
-        return true;
+        try {
+            //更新商户支付表
+            $TradePay->out_trade_no = $out_trade_no;
+            $TradePay->out_pay_status = 0;
+            $TradePay->status = 'wait';     //等待结算
+            $TradePay->out_gmt_payment = $out_gmt_payment;     //第三方支付完成时间
+            $TradePay->save();
+
+            //支付成功后的事件
+            event(new TradePaySuccess($TradePay));
+            DB::commit();
+            return true;
+        } catch (\Exception $e) {
+            DB::rollBack();
+        }
+
     }
 
 
 
-}
-
-function testlog($str)
-{
-    $logFile = fopen(
-        storage_path('logs' . DIRECTORY_SEPARATOR . date('Y-m-d') . '_app.log'),
-        'a+'
-    );
-    fwrite($logFile, date('Y-m-d H:i:s') . ': ' . $str . "\r\n");
-    fclose($logFile);
 }

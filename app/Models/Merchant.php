@@ -14,9 +14,10 @@ class Merchant extends Model
     protected $dateFormat = 'U';
 
     protected $guarded = [];
-//    public function setSecretKeyAttribute($value) {
-//        return $this->attributes['secret_key'] = Uuid::uuid1();
-//    }
+    public function setPasswordAttribute($value) {
+        if ($value)
+            $this->attributes['password'] = md5($value);
+    }
 
     public function setSecretKeyAttribute($value)
     {

@@ -35,7 +35,9 @@ class MerchantController extends AdminController
         $grid->column('email', __('邮箱'));
         $grid->column('total_trade_amount', __('商户总交易金额'));
         $grid->column('total_server_income', __('获取收益'));
-        $grid->column('created_at', __('加入时间'));
+        $grid->column('created_at', __('加入时间'))->display(function ($name) {
+            return date('Y-m-d',$name);
+        });
 
         return $grid;
     }
@@ -50,17 +52,18 @@ class MerchantController extends AdminController
     {
         $show = new Show(Merchant::findOrFail($id));
 
-        $show->field('merchant_id', __('Merchant id'));
-        $show->field('account', __('Account'));
-        $show->field('password', __('Password'));
-        $show->field('secret_key', __('Secret key'));
-        $show->field('name', __('Name'));
-        $show->field('phone', __('Phone'));
-        $show->field('email', __('Email'));
-        $show->field('account_balance', __('Account balance'));
-        $show->field('withdraw_amount', __('Withdraw amount'));
-        $show->field('created_at', __('Created at'));
-        $show->field('updated_at', __('Updated at'));
+        $show->field('merchant_id', __('ID'));
+        $show->field('account', __('账号'));
+        $show->field('secret_key', __('秘钥'));
+        $show->field('name', __('昵称'));
+        $show->field('phone', __('手机号'));
+        $show->field('email', __('邮箱'));
+        $show->field('total_server_income', __('系统收益总收益'));
+        $show->field('total_trade_amount', __('商户总交易金额'));
+        $show->field('account_balances', __('商户余额'));
+        $show->field('charges_percentage', __('商户交易手续费百分比'));
+        $show->field('created_at', __('创建时间'));
+        $show->field('updated_at', __('修改时间'));
 
         return $show;
     }

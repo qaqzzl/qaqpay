@@ -26,14 +26,18 @@ class MerchantTradeBillsController extends AdminController
     {
         $grid = new Grid(new MerchantTradeBills);
 
-        $grid->column('total_bill_id', __('Total bill id'));
-        $grid->column('merchant_id', __('Merchant id'));
-        $grid->column('bill_type', __('Bill type'));
-        $grid->column('status', __('Status'));
-        $grid->column('amount', __('Amount'));
-        $grid->column('charges_amount', __('Charges amount'));
-        $grid->column('created_at', __('Created at'));
-        $grid->column('updated_at', __('Updated at'));
+        $grid->column('bills_id', __('ID'));
+        $grid->column('merchant_id', __('商户ID'));
+        $grid->column('bill_type', __('类型'));
+        $grid->column('status', __('状态'));
+        $grid->column('amount', __('订单金额'));
+        $grid->column('charges_amount', __('手续费'));
+        $grid->column('created_at', __('创建时间'))->display(function ($name) {
+            return date('Y-m-d H:i:s',$name);
+        });
+        $grid->column('updated_at', __('更新时间'))->display(function ($name) {
+            return date('Y-m-d H:i:s',$name);
+        });
 
         return $grid;
     }

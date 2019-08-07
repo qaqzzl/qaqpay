@@ -5,7 +5,6 @@
 namespace App\Services;
 use App\Models\MerchantTradeNotify;
 use App\Models\MerchantTradePay;
-use function App\Http\Controllers\OpenPay\api_error;
 use GuzzleHttp\Client;
 use Yansongda\Pay\Pay;
 use Psr\Http\Message\ResponseInterface;
@@ -71,61 +70,6 @@ class OpenPayService
     /**
      * 直连支付
     */
-
-
-    /**
-     * 支付成功通知商户
-     * @return
-    */
-    public static function NoticePay($pay_id)
-    {
-        $time = time();
-        $TradePay = MerchantTradePay::find($pay_id);
-
-        if (empty($TradePay->notify_url)) return false;
-
-        if (MerchantTradeNotify::where('out_trade_no',$TradePay->out_trade_no)->count())  return false;
-
-        $notice_body = [
-            'trade_no'=>$TradePay->trade_no,    //系统交易号
-            'total_amount'=>$TradePay->total_amount,
-            'out_trade_no'=>$TradePay->merchant_trade_no,    //商户交易订单号
-            'version'=>'1.0.0',
-            'passback_params'=>$TradePay->passback_params,
-            'gmt_create'=>$TradePay->created_at,    //系统交易创建时间
-            'gmt_payment'=>$TradePay->out_gmt_payment,  //第三方支付成功时间
-            'notify_time'=>$time,
-        ];
-        $notice_body['sign'] = (new self)->generateSign($notice_body, $TradePay->merchant->secret_key);
-
-        //创建回调信息
-        $notice = [
-            'merchant_id'=>$TradePay->merchant_id,
-            'status'=>'wait',
-            'frequency'=>1,
-            'last_notice_time'=>$time,
-            'out_trade_no'=>$TradePay->out_trade_no,
-            'notify_url'=>$TradePay->notify_url,
-            'notice_body'=>json_encode($notice_body),
-        ];
-        MerchantTradeNotify::create($notice);
-
-        $client = new Client();
-
-        $options['body'] = $notice_body;
-        $promise = $client->requestAsync('POST', $TradePay->notify_url, []);
-        $promise->then(
-            function (ResponseInterface $res) use ($TradePay) {
-                if ($res->getBody() == 'success')
-                    $TradePay->status = 'success';
-            },
-            function (RequestException $e) {
-
-            }
-        );
-    }
-
-
 
 
         /***********************************openpay 公共方法***************************************/

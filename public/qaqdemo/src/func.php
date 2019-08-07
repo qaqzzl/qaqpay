@@ -43,3 +43,13 @@ function clientip() {
     }
     return $ip_address;
 }
+
+function applog($str)
+{
+    $logFile = fopen(
+       date('Y-m-d') . '_app.log',
+        'a+'
+    );
+    fwrite($logFile, date('Y-m-d H:i:s') . ': ' . $str . "\r\n");
+    fclose($logFile);
+}

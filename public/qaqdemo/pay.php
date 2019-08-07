@@ -16,11 +16,11 @@ $param = [
     'client_ip'=>clientip(),
     'choose_pay_type'=>'alipaywap',
 
-    'notify_url'=>'http://tests.ngrok.qaqzz.com/qaqdemo/openpay/notify.php',
+    'notify_url'=>'http://tests.ngrok.qaqzz.com/qaqdemo/notify.php',
     'subject'=>'测试创建交易demo',
     'body'=>'测试创建交易demo测试创建交易demo测试创建交易demo',
-    'timeout_express'=>'90m',                                                   //交易关闭时间紧
-    'passback_params'=>'{"type":"ABC","rand":"123456","content":"发斯蒂芬"}',   //自定义数据 , 回调通知时原样返回
+    'timeout_express'=>'90m',                                                     //交易关闭时间
+    'passback_params'=>'{"type":"ABC","rand":"123456","content":"测试一下呀"}',   //自定义数据 , 回调通知时原样返回
 ];
 
 $pay = new \QaqPay\pay();

@@ -37,8 +37,8 @@
                     <!-- small box -->
                     <div class="small-box bg-yellow">
                         <div class="inner">
-                            <h3>￥{{$info['today_total_amount_wait']}}</h3>
-                            <p>待结算金额</p>
+                            <h3>￥{{$info['today_total_settlement']}}</h3>
+                            <p>今日结算金额</p>
                         </div>
                     </div>
                 </div>
@@ -85,7 +85,7 @@
                     <!-- small box -->
                     <div class="small-box bg-black">
                         <div class="inner">
-                            <h3>￥{{$info['total_today_total_amount_wait']}}</h3>
+                            <h3>￥{{$info['total_today_total_settlement']}}</h3>
                             <p>总结算金额</p>
                         </div>
                     </div>

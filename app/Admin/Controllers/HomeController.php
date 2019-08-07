@@ -43,8 +43,8 @@ class HomeController extends Controller
             ->where(['out_pay_status'=>0])->sum('total_amount');
         //今日收益金额
         $info['today_charges_amount'] = MerchantTradeBills::where('created_at','>',strtotime(date('Y-m-d',time() )))->where('bill_type','openpay')->sum('charges_amount');
-        //待结算金额
-        $info['today_total_amount_wait'] = MerchantTradePay::where(['out_pay_status'=>0,'status'=>'wait'])->sum('total_amount');
+        //今日结算金额 = 今日交易金额 - 今日收益金额
+        $info['today_total_settlement'] = $info['today_total_amount'] - $info['today_charges_amount'];
         //申请提现金额
         $info['withdraw'] = MerchantTradeBills::where(['status'=>1,'bill_type'=>'withdraw'])->sum('amount');
 
@@ -53,8 +53,8 @@ class HomeController extends Controller
         $info['total_today_total_amount'] = MerchantTradePay::where(['out_pay_status'=>0])->sum('total_amount');
         //总收益金额
         $info['total_today_charges_amount'] = MerchantTradeBills::where('bill_type','openpay')->sum('charges_amount');
-        //总结算金额
-        $info['total_today_total_amount_wait'] = MerchantTradePay::where(['out_pay_status'=>0,'status'=>'end'])->sum('total_amount');
+        //总结算金额 = 总交易金额 - 总收益金额
+        $info['total_today_total_settlement'] = $info['total_today_total_amount'] - $info['total_today_charges_amount'];
         //总提现金额
         $info['total_withdraw'] = MerchantTradeBills::where(['status'=>0,'bill_type'=>'withdraw'])->sum('amount');
 

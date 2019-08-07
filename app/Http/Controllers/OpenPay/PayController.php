@@ -3,11 +3,47 @@
 namespace App\Http\Controllers\OpenPay;
 
 use App\Models\Merchant;
+use App\Models\MerchantTradeNotify;
+use App\Models\MerchantTradePay;
 use App\Services\ExtendPayService;
 use App\Services\OpenPayService;
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\RequestException;
 use Illuminate\Http\Request;
+use Psr\Http\Message\ResponseInterface;
+
 class PayController extends BaseController
 {
+    public function test()
+    {
+        $this->notify_test();
+    }
+
+    //回调通知测试
+    public function notify_test()
+    {
+        $notify = MerchantTradeNotify::where('status','wait')->get();
+        foreach ($notify as $vo) {
+            $client = new Client();
+            $options['json'] = json_decode($vo->notice_body,true);
+            dd($vo->notify_url);
+            $promise = $client->requestAsync('POST', $vo->notify_url);
+            $promise->then(
+                function (ResponseInterface $res) use ($vo) {
+//                    if ($res->getBody() == 'success') {
+//                        $vo->status = 'success';
+//                        $vo->save();
+//                    }
+
+                },
+                function (RequestException $e) {
+
+                }
+            );
+        }
+        dd($notify);
+    }
+
     //交易支付
     public function tradeH5Pay(Request $request, OpenPayService $openPayService)
     {
@@ -46,7 +82,6 @@ class PayController extends BaseController
     //支付宝支付回调
     public function notifyAlipay(ExtendPayService $extendPayService)
     {
-        testlog("notifyAlipay");
         return $extendPayService->NotifyAlipay();
     }
 
@@ -55,14 +90,4 @@ class PayController extends BaseController
     {
         $extendPayService->notifyWechat();
     }
-}
-
-function testlog($str)
-{
-    $logFile = fopen(
-        storage_path('logs' . DIRECTORY_SEPARATOR . date('Y-m-d') . '_app.log'),
-        'a+'
-    );
-    fwrite($logFile, date('Y-m-d H:i:s') . ': ' . $str . "\r\n");
-    fclose($logFile);
 }
