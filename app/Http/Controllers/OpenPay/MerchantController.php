@@ -17,7 +17,7 @@ class MerchantController extends BaseController
     public function signin(Request $request)
     {
         $Merchant = Merchant::where('account',$request->account)->first();
-        if ($Merchant->password != md5($request->password)) {
+        if (empty($Merchant) || $Merchant->password != md5($request->password)) {
             return api_error(20002);
         }
         $access_token = Uuid::uuid4()->toString();
