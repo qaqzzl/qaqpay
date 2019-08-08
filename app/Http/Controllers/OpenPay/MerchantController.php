@@ -115,8 +115,14 @@ class MerchantController extends BaseController
             ->where('bill_type','openpay')
             ->where('merchant_id',$merchant_id)->sum('amount');
 
-        //提现金额
+        //已提现金额
         $info['total_withdraw_amount'] = MerchantTradeBills::where('bill_type','withdraw')
+            ->where('status',0)
+            ->where('merchant_id',$merchant_id)->sum('amount');
+
+        //提现中金额
+        $info['total_withdraw_wait_amount'] = MerchantTradeBills::where('bill_type','withdraw')
+            ->where('status',1)
             ->where('merchant_id',$merchant_id)->sum('amount');
 
         //交易总金额

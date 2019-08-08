@@ -13,4 +13,10 @@ class MerchantTradeNotify extends Model
     protected $dateFormat = 'U';
 
     protected $guarded = [];
+
+
+    public function getCreatedAtAttribute($value)
+    {
+        return $value;
+    }
 }

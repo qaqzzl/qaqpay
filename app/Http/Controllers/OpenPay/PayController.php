@@ -33,7 +33,7 @@ class PayController extends BaseController
                     dump($res->getBody()->getContents());
                 },
                 function (RequestException $e) {
-
+                    dump('请求失败');
                 }
             )->wait();
         }

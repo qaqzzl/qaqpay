@@ -36,15 +36,21 @@
                                             </a>
                                         </li>
                                         <li class="layui-col-xs4">
+                                            <a onclick="layer.tips('不跳转', this, {tips: 3});" class="layadmin-backlog-body">
+                                                <h3>总交易金额</h3>
+                                                <p><cite id="total_trade_amount">￥0.00</cite></p>
+                                            </a>
+                                        </li>
+                                        <li class="layui-col-xs4">
                                             <a class="layadmin-backlog-body">
-                                                <h3>提现金额</h3>
+                                                <h3>已提现金额</h3>
                                                 <p><cite id="total_withdraw_amount">￥0.00</cite></p>
                                             </a>
                                         </li>
                                         <li class="layui-col-xs4">
-                                            <a onclick="layer.tips('不跳转', this, {tips: 3});" class="layadmin-backlog-body">
-                                                <h3>总交易金额</h3>
-                                                <p><cite id="total_trade_amount">￥0.00</cite></p>
+                                            <a class="layadmin-backlog-body">
+                                                <h3>提现中金额</h3>
+                                                <p><cite id="total_withdraw_wait_amount">￥0.00</cite></p>
                                             </a>
                                         </li>
                                         <li class="layui-col-xs4">
@@ -133,6 +139,7 @@
                 $('#today_total_amount').html("￥"+info.today_total_amount)
                 $('#today_arrival_amount').html("￥"+info.today_arrival_amount)
                 $('#total_withdraw_amount').html("￥"+info.total_withdraw_amount)
+                $('#total_withdraw_wait_amount').html("￥"+info.total_withdraw_wait_amount)
                 $('#total_trade_amount').html("￥"+info.total_trade_amount)
                 $('#account_balances').html("￥"+info.account_balances)
             }

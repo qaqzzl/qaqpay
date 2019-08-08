@@ -6,6 +6,7 @@ use App\Models\MerchantTradeBills;
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
+use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
 
 class MerchantTradeBillsController extends AdminController

@@ -14,6 +14,10 @@ class MerchantTradePay extends Model
 
     protected $guarded = [];
 
+    public function getCreatedAtAttribute($value)
+    {
+        return $value;
+    }
 
     public function merchant()
     {

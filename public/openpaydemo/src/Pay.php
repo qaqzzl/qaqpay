@@ -2,7 +2,7 @@
 
 namespace QaqPay;
 
-class pay {
+class Pay {
     public $Charset = 'utf-8';
 
     private $secret_key = '';

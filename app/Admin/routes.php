@@ -19,4 +19,6 @@ Route::group([
     $router->resource('merchant-trade-bills', MerchantTradeBillsController::class);
 
     $router->resource('merchant-trade-pays', MerchantTradePayController::class);
+
+    $router->resource('merchant-amount-withdraws', MerchantAmountWithdrawController::class);    //提现管理
 });
