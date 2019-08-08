@@ -15,49 +15,45 @@
 
 <div class="layui-fluid">
     <div class="layui-card">
-        <div class="layui-form layui-card-header layuiadmin-card-header-auto">
-            <div class="layui-form-item">
-                <div class="layui-inline">
-                    <label class="layui-form-label">ID</label>
-                    <div class="layui-input-block">
-                        <input type="text" name="id" placeholder="请输入" autocomplete="off" class="layui-input">
-                    </div>
-                </div>
-                <div class="layui-inline">
-                    <label class="layui-form-label">用户名</label>
-                    <div class="layui-input-block">
-                        <input type="text" name="username" placeholder="请输入" autocomplete="off" class="layui-input">
-                    </div>
-                </div>
-                <div class="layui-inline">
-                    <label class="layui-form-label">邮箱</label>
-                    <div class="layui-input-block">
-                        <input type="text" name="email" placeholder="请输入" autocomplete="off" class="layui-input">
-                    </div>
-                </div>
-                <div class="layui-inline">
-                    <label class="layui-form-label">性别</label>
-                    <div class="layui-input-block">
-                        <select name="sex">
-                            <option value="0">不限</option>
-                            <option value="1">男</option>
-                            <option value="2">女</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="layui-inline">
-                    <button class="layui-btn layuiadmin-btn-useradmin" lay-submit lay-filter="LAY-user-front-search">
-                        <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
+{{--        <div class="layui-form layui-card-header layuiadmin-card-header-auto">--}}
+{{--            <div class="layui-form-item">--}}
+{{--                <div class="layui-inline">--}}
+{{--                    <label class="layui-form-label">ID</label>--}}
+{{--                    <div class="layui-input-block">--}}
+{{--                        <input type="text" name="id" placeholder="请输入" autocomplete="off" class="layui-input">--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--                <div class="layui-inline">--}}
+{{--                    <label class="layui-form-label">用户名</label>--}}
+{{--                    <div class="layui-input-block">--}}
+{{--                        <input type="text" name="username" placeholder="请输入" autocomplete="off" class="layui-input">--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--                <div class="layui-inline">--}}
+{{--                    <label class="layui-form-label">邮箱</label>--}}
+{{--                    <div class="layui-input-block">--}}
+{{--                        <input type="text" name="email" placeholder="请输入" autocomplete="off" class="layui-input">--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--                <div class="layui-inline">--}}
+{{--                    <label class="layui-form-label">性别</label>--}}
+{{--                    <div class="layui-input-block">--}}
+{{--                        <select name="sex">--}}
+{{--                            <option value="0">不限</option>--}}
+{{--                            <option value="1">男</option>--}}
+{{--                            <option value="2">女</option>--}}
+{{--                        </select>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--                <div class="layui-inline">--}}
+{{--                    <button class="layui-btn layuiadmin-btn-useradmin" lay-submit lay-filter="LAY-user-front-search">--}}
+{{--                        <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>--}}
+{{--                    </button>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--        </div>--}}
 
         <div class="layui-card-body">
-            <div style="padding-bottom: 10px;">
-                <button class="layui-btn layuiadmin-btn-useradmin" data-type="batchdel">删除</button>
-                <button class="layui-btn layuiadmin-btn-useradmin" data-type="add">添加</button>
-            </div>
 
             <table id="LAY-list" lay-filter="LAY-list"></table>
 

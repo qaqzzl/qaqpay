@@ -4,7 +4,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>登入 - layuiAdmin</title>
+    <title>登入 - 开放支付商户管理</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
@@ -18,8 +18,8 @@
 
     <div class="layadmin-user-login-main">
         <div class="layadmin-user-login-box layadmin-user-login-header">
-            <h2>layuiAdmin</h2>
-            <p>layui 官方出品的单页面后台管理模板系统</p>
+            <h2>商户管理</h2>
+            <p>开放支付系统</p>
         </div>
         <div class="layadmin-user-login-box layadmin-user-login-body layui-form">
             <div class="layui-form-item">
@@ -45,19 +45,19 @@
             <!--            </div>-->
             <div class="layui-form-item" style="margin-bottom: 20px;">
                 <input type="checkbox" name="remember" lay-skin="primary" title="记住密码">
-                <a href="forget.html" class="layadmin-user-jump-change layadmin-link" style="margin-top: 7px;">忘记密码？</a>
+{{--                <a href="forget.html" class="layadmin-user-jump-change layadmin-link" style="margin-top: 7px;">忘记密码？</a>--}}
             </div>
             <div class="layui-form-item">
                 <button class="layui-btn layui-btn-fluid" lay-submit lay-filter="LAY-user-login-submit">登 入</button>
             </div>
-            <div class="layui-trans layui-form-item layadmin-user-login-other">
-                <label>社交账号登入</label>
-                <a href="javascript:;"><i class="layui-icon layui-icon-login-qq"></i></a>
-                <a href="javascript:;"><i class="layui-icon layui-icon-login-wechat"></i></a>
-                <a href="javascript:;"><i class="layui-icon layui-icon-login-weibo"></i></a>
+{{--            <div class="layui-trans layui-form-item layadmin-user-login-other">--}}
+{{--                <label>社交账号登入</label>--}}
+{{--                <a href="javascript:;"><i class="layui-icon layui-icon-login-qq"></i></a>--}}
+{{--                <a href="javascript:;"><i class="layui-icon layui-icon-login-wechat"></i></a>--}}
+{{--                <a href="javascript:;"><i class="layui-icon layui-icon-login-weibo"></i></a>--}}
 
-                <a href="reg.html" class="layadmin-user-jump-change layadmin-link">注册帐号</a>
-            </div>
+{{--                <a href="reg.html" class="layadmin-user-jump-change layadmin-link">注册帐号</a>--}}
+{{--            </div>--}}
         </div>
     </div>
 
@@ -132,7 +132,6 @@
                     setCookie(setter.request.tokenName, res.data.access_token)
                     setCookie(setter.request.idName, res.data.id)
 
-                    //登入成功的提示与跳转
                     layer.msg('登入成功', {
                         offset: '15px'
                         ,icon: 1

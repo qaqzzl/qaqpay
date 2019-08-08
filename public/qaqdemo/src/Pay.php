@@ -38,7 +38,7 @@ class pay {
     /**
      * 校验$value是否非空
      *  if not set ,return true;
-     *    if is null , return true;
+     *  if is null , return true;
      **/
     protected function checkEmpty($value) {
         if (!isset($value)) return true;

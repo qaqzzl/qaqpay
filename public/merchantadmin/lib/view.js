@@ -54,14 +54,14 @@ layui.define(['laytpl', 'layer'], function(exports){
 		//跳转到登入页
 		// location.hash = '/user/login';
 		// window.location.href="user/login";
-		location.href = 'auth/login.html';
+		location.href = '/';
 	};
 	
 	//权限不足
 	view.permission = function(callback) {
 		callback && callback();
 		url = 'common/permission.html'
-		if(top.layui.index){
+		if(top.layui.index) {
 			top.layui.index.openTabsPage(url,'权限不足')
 		}else{
 			window.open(url)

@@ -40,6 +40,7 @@ class SendCallBackNotification
 
         if (MerchantTradeNotify::where('out_trade_no',$TradePay->out_trade_no)->count())  return false;
 
+        //回调通知内容
         $notice_body = [
             'trade_no'=>$TradePay->trade_no,    //系统交易号
             'total_amount'=>$TradePay->total_amount,
@@ -50,7 +51,6 @@ class SendCallBackNotification
             'gmt_payment'=>$TradePay->out_gmt_payment,  //第三方支付成功时间
             'notify_time'=>$time,
         ];
-
         $notice_body['sign'] = $openPayService->generateSign($notice_body, $TradePay->merchant->secret_key);
 
         //创建回调信息
@@ -63,22 +63,22 @@ class SendCallBackNotification
             'notify_url'=>$TradePay->notify_url,
             'notice_body'=>json_encode($notice_body),
         ];
-        MerchantTradeNotify::create($notice);
+        $TradeNotify = MerchantTradeNotify::create($notice);
 
         $client = new Client();
-        $options['body'] = $notice_body;
+        $options['form_params'] = $notice_body;
         $promise = $client->requestAsync('POST', $TradePay->notify_url, $options);
         $promise->then(
-            function (ResponseInterface $res) use ($TradePay) {
-                if ($res->getBody() == 'success') {
-                    $TradePay->status = 'success';
-                    $TradePay->save();
+            function (ResponseInterface $res) use ($TradeNotify) {
+                if ($res->getBody()->getContents() == 'success') {
+                    $TradeNotify->status = 'success';
+                    $TradeNotify->save();
                 }
 
             },
             function (RequestException $e) {
 
             }
-        );
+        )->wait();
     }
 }

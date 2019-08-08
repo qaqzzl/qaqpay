@@ -23,23 +23,19 @@ class PayController extends BaseController
     public function notify_test()
     {
         $notify = MerchantTradeNotify::where('status','wait')->get();
+        $client = new Client();
         foreach ($notify as $vo) {
-            $client = new Client();
-            $options['json'] = json_decode($vo->notice_body,true);
-            dd($vo->notify_url);
-            $promise = $client->requestAsync('POST', $vo->notify_url);
+            $options['form_params'] = json_decode($vo->notice_body,true);
+            $promise = $client->requestAsync('POST', $vo->notify_url,$options);
             $promise->then(
                 function (ResponseInterface $res) use ($vo) {
-//                    if ($res->getBody() == 'success') {
-//                        $vo->status = 'success';
-//                        $vo->save();
-//                    }
-
+                    testlog("异步请求返回值: ".json_encode($res));
+                    dump($res->getBody()->getContents());
                 },
                 function (RequestException $e) {
 
                 }
-            );
+            )->wait();
         }
         dd($notify);
     }
@@ -69,7 +65,7 @@ class PayController extends BaseController
 
             //创建交易
             $payinfo = $openPayService->CreateTrade($request->all(), $merchant->merchant_id);
-            return $payinfo;
+            return api_success(['content'=>$payinfo->getContent()]);
 //            return view('qaqpay.h5',['choose_pay_type'=>$request->choose_pay_type,'total_amount'=>$request->total_amount,'payinfo'=>[] ]);
 //        } catch (\Exception $exception) {
 //            return api_error($exception->getCode(),[],$exception->getMessage());

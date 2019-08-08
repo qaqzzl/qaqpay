@@ -29,6 +29,11 @@ layui.define(function(exports){
         //   "Author": "CodePlayer" ,
         //   "Powered-By": "CodePlayer"
         // } ,
+        success:function(result){
+            if (result[setter.response.statusName] == setter.response.statusCode.logout) {
+                view.exit()
+            }
+        },
     });
     
     

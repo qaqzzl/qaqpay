@@ -59,6 +59,7 @@
                         </div>
                     </div>
                 </div>
+                {{--
                 <div class="layui-col-md12">
                     <div class="layui-card">
                         <div class="layui-card-header">数据概览</div>
@@ -75,6 +76,7 @@
                         </div>
                     </div>
                 </div>
+                --}}
             </div>
         </div>
 
