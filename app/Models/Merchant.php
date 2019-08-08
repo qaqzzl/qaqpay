@@ -19,6 +19,10 @@ class Merchant extends Model
             $this->attributes['password'] = md5($value);
     }
 
+    public function getPasswordAttribute($value) {
+        return '';
+    }
+
     public function setPhoneAttribute($value) {
         if ($value)
             $this->attributes['phone'] = $value;
@@ -26,8 +30,8 @@ class Merchant extends Model
 
     public function setSecretKeyAttribute($value)
     {
-        if (!empty($value)) {
-            $this->attributes['secret_key'] = Uuid::uuid4();
+        if (empty($value)) {
+            $this->attributes['secret_key'] = Uuid::uuid4()->toString();
         }
     }
 }

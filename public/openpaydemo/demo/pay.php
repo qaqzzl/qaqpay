@@ -28,9 +28,10 @@ $pay = new \QaqPay\Pay();
 $param['sign'] = $pay->generateSign($param,$secret_key);
 
 $result = curl($domain.$api,'POST',$param);
-//exit($result);
 $res = json_decode($result);
 if ($res->code == 0) {
-    print_r($res->data->content);
+    print_r($res);
+} else {
+    print_r($res->msg);
 }
 

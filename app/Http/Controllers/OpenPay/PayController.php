@@ -54,8 +54,7 @@ class PayController extends BaseController
             'subject'=>'required',
             'sign'=>'required',
         ]);
-
-//        try {
+        try {
             if (!$merchant = Merchant::where('account',$request->account)->first()) {
                 return api_error(4001);
             }
@@ -66,10 +65,10 @@ class PayController extends BaseController
             //创建交易
             $payinfo = $openPayService->CreateTrade($request->all(), $merchant->merchant_id);
             return api_success(['content'=>$payinfo->getContent()]);
-//            return view('qaqpay.h5',['choose_pay_type'=>$request->choose_pay_type,'total_amount'=>$request->total_amount,'payinfo'=>[] ]);
-//        } catch (\Exception $exception) {
-//            return api_error($exception->getCode(),[],$exception->getMessage());
-//        }
+            //return view('qaqpay.h5',['choose_pay_type'=>$request->choose_pay_type,'total_amount'=>$request->total_amount,'payinfo'=>[] ]);
+        } catch (\Exception $exception) {
+            return api_error($exception->getCode(),[],$exception->getMessage());
+        }
     }
 
     //直连支付
