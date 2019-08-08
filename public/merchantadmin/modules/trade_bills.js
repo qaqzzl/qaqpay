@@ -39,7 +39,7 @@ layui.define(['table', 'form'], function(exports){
             // ,{field: 'id', width: 80, title: 'ID', sort: true}
             {field: 'bill_type', title: '账单类型', templet:'#billtypeTpl'}
             ,{field: 'status', title: '账单状态', templet:'#statusTpl'}
-            ,{field: 'amount', title: '账单金额'}
+            ,{field: 'amount', title: '到账金额'}
             ,{field: 'charges_amount', title: '账单手续费'}
             ,{field: 'created_at', title: '时间'}
         ]]
