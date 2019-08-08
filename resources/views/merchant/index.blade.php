@@ -59,11 +59,11 @@
                 </li>
                 <li class="layui-nav-item" lay-unselect style="margin-right: 15px;">
                     <a href="javascript:;">
-                        <cite>贤心</cite>
+                        <cite id="username">管理员</cite>
                     </a>
                     <dl class="layui-nav-child">
-                        <dd><a lay-href="set/user/info.html">基本资料</a></dd>
-                        <dd><a lay-href="set/user/password.html">修改密码</a></dd>
+                        <dd><a lay-href="merchant-edit">修改资料</a></dd>
+{{--                        <dd><a lay-href="set/user/password.html">修改二级密码</a></dd>--}}
                         <hr>
                         <dd layadmin-event="logout" style="text-align: center;"><a>退出</a></dd>
                     </dl>
@@ -153,9 +153,15 @@
     }).use('index', function () {
         var $ = layui.$
             ,admin = layui.admin
+            ,setter  = layui.setter
             ,form  = layui.form
             ,index = layui.index
-
+        admin.req({
+            url: layui.setter.api_domain + setter.api_list.merchantInfo
+            ,done: function(res){
+                $('#username').html(res.data.name)
+            }
+        });
     });
 </script>
 

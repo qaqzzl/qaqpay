@@ -60,7 +60,7 @@
 {{--            </div>--}}
         </div>
     </div>
-
+{{--
     <div class="layui-trans layadmin-user-login-footer">
 
         <p>© 2018 <a href="http://www.layui.com/" target="_blank">layui.com</a></p>
@@ -70,11 +70,11 @@
             <span><a href="http://www.layui.com/admin/" target="_blank">前往官网</a></span>
         </p>
     </div>
-
+--}}
 <!--<div class="ladmin-user-login-theme">
       <script type="text/html" template>
         <ul>
-          <li data-theme=""><img src="<{ layui.setter.base }>style/res/bg-none.jpg"></li>
+          <li data-theme=""><img src="@{{ layui.setter.base }}style/res/bg-none.jpg"></li>
           <li data-theme="#03152A" style="background-color: #03152A;"></li>
           <li data-theme="#2E241B" style="background-color: #2E241B;"></li>
           <li data-theme="#50314F" style="background-color: #50314F;"></li>

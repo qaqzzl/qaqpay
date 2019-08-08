@@ -26,7 +26,40 @@ class MerchantController extends BaseController
         return api_success(['access_token'=>$access_token,'id'=>$Merchant->merchant_id]);
     }
 
-    //修改资料
+    //商户账号信息
+    public function merchantInfo(Request $request)
+    {
+        $id = $request->input('user_id');
+        $info = Merchant::where('merchant_id',$id)->select('account','name','email','secret_key','created_at')->first();
+        return api_success($info);
+    }
+
+    /**
+     * 修改资料
+    */
+    public function merchantInfoUpdate(Request $request)
+    {
+        $this->validate($request,[
+            'password'=>'required',
+            'secret_key'=>'required',
+            'name'=>'required',
+            'email'=>'required',
+        ]);
+        $id = $request->get('user_id');
+        $Merchant = Merchant::where('merchant_id',$id)->first();
+
+        if ($Merchant->password != md5($request->password)) return api_error(20004);
+
+        $Merchant->password = $request->password;
+        $Merchant->secret_key = $request->secret_key;
+        $Merchant->name = $request->name;
+        $Merchant->email = $request->email;
+        if ($Merchant->save()) {
+            return api_success();
+        } else {
+            return api_error(5000);
+        }
+    }
 
     //提现申请
     public function tradeWithdrawApplication(Request $request)

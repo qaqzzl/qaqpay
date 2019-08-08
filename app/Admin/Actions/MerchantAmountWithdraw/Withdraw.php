@@ -29,14 +29,6 @@ class Withdraw extends RowAction
 
     public function handle(Model $model,Request $request)
     {
-        // $model ...
-        // 获取到表单中的`type`值
-        $request->get('status');
-
-        // 获取表单中的`reason`值
-        $request->get('operating_remarks');
-
-        // 你的举报逻辑...
         $model->status = $request->get('status');
         $model->operating_remarks = $request->get('operating_remarks');
         $model->operating_time = time();

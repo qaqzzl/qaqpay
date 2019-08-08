@@ -78,7 +78,7 @@ class MerchantController extends AdminController
         $form = new Form(new Merchant);
         $form->text('name', __('商家名称'));
         $form->text('account', __('账号'));
-        $form->password('password', __('密码'));
+        $form->password('password', __('密码'))->value('');
         $form->mobile('phone', __('手机号'));
         $form->email('email', __('邮箱'));
         $form->decimal('charges_percentage', __('交易手续费'))->default(3.00);

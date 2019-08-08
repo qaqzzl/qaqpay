@@ -43,6 +43,8 @@ Route::group([
     Route::group([
         'middleware' => 'auth.merchant.login',
     ],function() {
+        Route::any('merchant.info', 'MerchantController@merchantInfo');             //商户账号信息
+        Route::any('merchant.info.update', 'MerchantController@merchantInfoUpdate');             //商户 - 修改账户信息
         Route::any('trade.statistics', 'MerchantController@tradeStatistics');             //交易统计
         Route::any('trade.bills.list', 'MerchantController@tradeBillsList');             //商户交易流水列表
         Route::any('trade.withdraw.list', 'MerchantController@tradeWithdrawList');             //商户提现申请列表

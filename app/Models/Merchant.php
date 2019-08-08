@@ -19,6 +19,11 @@ class Merchant extends Model
             $this->attributes['password'] = md5($value);
     }
 
+    public function setPhoneAttribute($value) {
+        if ($value)
+            $this->attributes['phone'] = $value;
+    }
+
     public function setSecretKeyAttribute($value)
     {
         if (!empty($value)) {

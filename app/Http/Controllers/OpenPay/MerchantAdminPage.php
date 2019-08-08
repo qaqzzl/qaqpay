@@ -28,6 +28,12 @@ class MerchantAdminPage extends Controller
 
 
     //修改商户资料
+    public function merchant_edit()
+    {
+        return view('merchant.user.merchant_edit');
+    }
+
+    //修改二级密码
 
     //提现列表
     public function trade_withdraw()

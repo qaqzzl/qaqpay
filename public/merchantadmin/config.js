@@ -19,6 +19,8 @@ layui.define(['laytpl', 'layer', 'element', 'util'], function(exports){
         //接口列表
         ,api_list: {
             login: 'login.signin',          //登录
+            merchantInfo: 'merchant.info',          //商户账号信息
+            merchantInfoUpdate: 'merchant.info.update',          //商户账号信息
             tradeBills: 'trade.bills.list',          //交易流水列表
             tradeWithdraw: 'trade.withdraw.list',          //交易提现申请列表
             tradeWithdrawApplication: 'trade.withdraw.application',          //交易提现申请
