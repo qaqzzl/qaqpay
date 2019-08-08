@@ -14,7 +14,7 @@ layui.define(['laytpl', 'layer', 'element', 'util'], function(exports){
     // });
     exports('setter', {
         container: 'LAY_app' //容器ID
-        ,api_domain: 'http://127.0.0.1:82/api/openpay/v1.0.0/'
+        ,api_domain: 'http://openpay.timblue.cn/api/openpay/v1.0.0/'
         
         //接口列表
         ,api_list: {

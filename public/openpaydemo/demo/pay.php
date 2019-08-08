@@ -11,7 +11,7 @@ $param = [
     'account'=>$account,
     'version'=>'1.0.0',
     'trade_no'=>time().mt_rand(100000,999999),
-    'total_amount'=>0.01,
+    'total_amount'=>0.1,
     'timestamp'=>time(),
     'client_ip'=>clientip(),
     'choose_pay_type'=>'alipaywap',
@@ -30,7 +30,7 @@ $param['sign'] = $pay->generateSign($param,$secret_key);
 $result = curl($domain.$api,'POST',$param);
 $res = json_decode($result);
 if ($res->code == 0) {
-    print_r($res);
+    print_r($res->data->content);
 } else {
     print_r($res->msg);
 }

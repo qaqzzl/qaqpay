@@ -81,7 +81,7 @@ class MerchantController extends AdminController
         $form->password('password', __('密码'))->value('');
         $form->mobile('phone', __('手机号'));
         $form->email('email', __('邮箱'));
-        $form->decimal('charges_percentage', __('交易手续费'))->default(3.00);
+        $form->decimal('charges_percentage', __('交易手续费'))->default(0.00);
         $form->text('secret_key')->value(Uuid::uuid4())->readonly();
 
         //保存前回调
